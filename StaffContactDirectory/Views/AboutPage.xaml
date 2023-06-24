@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:StaffContactDirectory.ViewModels"
+             x:Class="StaffContactDirectory.Views.AboutPage"
+             Title="About">
+    <VerticalStackLayout
+        Spacing="5"
+        Padding="30,5"
+        VerticalOptions="Center"
+        HorizontalOptions="Center">
+        <Label 
+            Text="{Binding AboutInfo}"
+            SemanticProperties.HeadingLevel="Level4"
+            FontSize="16"
+            FontFamily="TrebuchetBold" />
+        <Label 
+            Text="{Binding Copyright}"
+            SemanticProperties.HeadingLevel="Level4"
+            FontSize="16"
+            FontFamily="TrebuchetBold" />
+        <Label 
+            Text="{Binding VersionString}"
+            SemanticProperties.HeadingLevel="Level4"
+            FontSize="14"
+            FontFamily="TrebuchetBold" />
+        <Label 
+            Text="{Binding BaseDir}"
+            SemanticProperties.HeadingLevel="Level4"
+            FontSize="14"
+            FontFamily="TrebuchetBold" />
+        <Label 
+            Text="{Binding DataDir}"
+            SemanticProperties.HeadingLevel="Level4"
+            FontSize="14"
+            FontFamily="TrebuchetBold" />
+    </VerticalStackLayout>
+</ContentPage>

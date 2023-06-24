@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:StaffContactDirectory.ViewModels"
+             x:DataType="viewModels:MainViewModel"
+             x:Class="StaffContactDirectory.Views.MainView">
+
+    <ScrollView>
+        <VerticalStackLayout
+            Spacing="5"
+            Padding="30,5"
+            VerticalOptions="Center">
+
+            <Image
+                Source="{Binding CompanyLogo}"
+                SemanticProperties.Description="{Binding CompanyName}"
+                HeightRequest="200"
+                HorizontalOptions="Center" />
+
+            <Label
+                Text="{Binding CompanyName}"
+                SemanticProperties.HeadingLevel="Level1"
+                FontSize="48"
+                FontFamily="TrebuchetBold"
+                HorizontalTextAlignment="Center"
+                HorizontalOptions="Center" />
+
+            <Label
+                Text="{Binding AppTitle}"
+                SemanticProperties.HeadingLevel="Level2"
+                SemanticProperties.Description="{Binding AppTitle}"
+                FontSize="20"
+                FontFamily="TrebuchetBold"
+                HorizontalOptions="Center" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

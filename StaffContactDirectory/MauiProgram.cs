@@ -11,9 +11,12 @@ public static class MauiProgram
 			.UseMauiApp<App>()
 			.ConfigureFonts(fonts =>
 			{
-				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
-				fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
-			});
+				//fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
+				//fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
+                fonts.AddFont("Trebuchet-MS.ttf", "TrebuchetRegular");
+                fonts.AddFont("Trebuchet-MS-Bold.ttf", "TrebuchetBold");
+                fonts.AddFont("Trebuchet-MS-Italiac.ttf", "TrebuchetItaliac");
+            });
 
 #if DEBUG
 		builder.Logging.AddDebug();

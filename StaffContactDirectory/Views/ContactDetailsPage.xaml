@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModel="clr-namespace:StaffContactDirectory.ViewModels"
+             x:Class="StaffContactDirectory.Views.ContactDetailsPage"
+             Title="Contact Details">
+    
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <!-- Define any required converters or styles here -->
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <Grid>
+        <!-- Contact card layout -->
+        <Grid RowSpacing="10" ColumnSpacing="10" Padding="20">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <!-- Image placeholder -->
+            <Image Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Source="placeholder_male.png" Aspect="AspectFill" HeightRequest="150" />
+
+            <!-- Contact details -->
+            <Label Grid.Row="1" Grid.Column="0" Text="Id:" HorizontalTextAlignment="End" FontAttributes="Bold" />
+            <Label Grid.Row="2" Grid.Column="0" Text="Name:" HorizontalTextAlignment="End" VerticalTextAlignment="Center" FontAttributes="Bold" />
+            <Label Grid.Row="3" Grid.Column="0" Text="Phone:" HorizontalTextAlignment="End" VerticalTextAlignment="Center" FontAttributes="Bold" />
+            <Label Grid.Row="4" Grid.Column="0" Text="Department:" HorizontalTextAlignment="End" VerticalTextAlignment="Center" FontAttributes="Bold" />
+            <Label Grid.Row="5" Grid.Column="0" Text="Street" HorizontalTextAlignment="End" VerticalTextAlignment="Center" FontAttributes="Bold" />
+            <Label Grid.Row="6" Grid.Column="0" Text="Suburb" HorizontalTextAlignment="End" VerticalTextAlignment="Center" FontAttributes="Bold" />
+            <Label Grid.Row="7" Grid.Column="0" Text="State" HorizontalTextAlignment="End" VerticalTextAlignment="Center" FontAttributes="Bold" />
+            <Label Grid.Row="8" Grid.Column="0" Text="Postcode" HorizontalTextAlignment="End" VerticalTextAlignment="Center" FontAttributes="Bold" />
+            <Label Grid.Row="9" Grid.Column="0" Text="Country" HorizontalTextAlignment="End" VerticalTextAlignment="Center" FontAttributes="Bold" />
+
+            <Label Grid.Row="1" Grid.Column="1" Text="{Binding SelectedPerson.Id}" />
+            <Entry Grid.Row="2" Grid.Column="1" Text="{Binding SelectedPerson.Name}" IsEnabled="{Binding IsEditing}" />
+            <Entry Grid.Row="3" Grid.Column="1" Text="{Binding SelectedPerson.Phone}" IsEnabled="{Binding IsEditing}" />
+            <!--//Label Grid.Row="4" Grid.Column="1" Text="{Binding SelectedPerson.Department.Name}" //-->
+            <!-- Department picker -->
+            <Picker Title="Select Department"
+                    Grid.Row="4"
+                    Grid.Column="1"
+                    SelectedItem="{Binding SelectedPerson.Department.Name}"
+                    ItemsSource="{Binding DepartmentList}"
+                    ItemDisplayBinding="{Binding Name}" />
+            
+            <Entry Grid.Row="5" Grid.Column="1" Text="{Binding SelectedPerson.Street}" IsEnabled="{Binding IsEditing}" />
+            <Entry Grid.Row="6" Grid.Column="1" Text="{Binding SelectedPerson.Suburb}" IsEnabled="{Binding IsEditing}" />
+            <Entry Grid.Row="7" Grid.Column="1" Text="{Binding SelectedPerson.State}" IsEnabled="{Binding IsEditing}" />
+            <Entry Grid.Row="8" Grid.Column="1" Text="{Binding SelectedPerson.Postcode}" IsEnabled="{Binding IsEditing}" />
+            <Entry Grid.Row="9" Grid.Column="1" Text="{Binding SelectedPerson.Country}" IsEnabled="{Binding IsEditing}" />
+            <!-- Add edit button -->
+            <Button Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="2" Text="Edit" Command="{Binding EditCommand}" IsVisible="{Binding IsNotEditing}" />
+
+            <!-- Add update button -->
+            <Button Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="2" Text="Update" Command="{Binding UpdateCommand}" IsVisible="{Binding IsEditing}" />
+        </Grid>
+    </Grid>
+</ContentPage>
