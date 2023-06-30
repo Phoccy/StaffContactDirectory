@@ -4,39 +4,36 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:StaffContactDirectory"
-    Shell.NavBarIsVisible="True"
-    Shell.NavBarHasShadow="True"
+    xmlns:view="clr-namespace:StaffContactDirectory.View"
     Shell.FlyoutBehavior="Disabled">
-    <Shell.ToolbarItems>
-        <ToolbarItem
-            Text="Options"
-            IconImageSource="settingswhite.svg"
-            Clicked="OnSettingsClicked" />
-    </Shell.ToolbarItems>
-    
-    <TabBar>
-        <Tab Title="Home" Icon="home.svg">
-            <ShellContent                
-                ContentTemplate="{DataTemplate local:Views.MainPage}"
-                Route="Views.MainPage" />
-        </Tab>
-        <Tab Title="Contact List" Icon="contactlist.svg">
-            <ShellContent
-                Title="Contact List"                
-                ContentTemplate="{DataTemplate local:Views.ContactListPage}"
-                Route="Views.ContactListPage" />
-        </Tab>
-        <Tab Title="About" Icon="info.svg">
-            <ShellContent
-                Title="About"                
-                ContentTemplate="{DataTemplate local:Views.AboutPage}"
-                Route="Views.AboutPage" />
-        </Tab>
-    </TabBar>
 
-    <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:Views.MainPage}"
-        Route="Views.MainPage" />
+    <TabBar>
+        <Tab Title="Home" Icon="home_icon.svg">
+            <ShellContent
+                Title="Home"
+                ContentTemplate="{DataTemplate view:MainPage}"
+                Route="MainPage" />
+        </Tab>
+        <Tab Title="Contacts" Icon="contact_list.svg">
+            <ShellContent
+                Title="Contact List"
+                ContentTemplate="{DataTemplate view:ContactListPage}"
+                Route="ContactListPage" />
+        </Tab>
+        <Tab Title="About" Icon="about_icon.svg">
+            <ShellContent
+                Title="About"
+                ContentTemplate="{DataTemplate view:AboutPage}"
+                Route="AboutPage" />
+        </Tab>
+        <Tab Title="Settings" Icon="settings_icon.svg">
+            <ShellContent
+                Title="Settings"
+                ContentTemplate="{DataTemplate view:SettingsPage}"
+                Route="SettingsPage" />
+        </Tab>
+
+    </TabBar>
+ 
 
 </Shell>

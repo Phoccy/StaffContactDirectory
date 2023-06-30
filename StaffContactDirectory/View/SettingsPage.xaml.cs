@@ -1,4 +1,4 @@
-namespace StaffContactDirectory.Views;
+namespace StaffContactDirectory.View;
 
 public partial class SettingsPage : ContentPage
 {

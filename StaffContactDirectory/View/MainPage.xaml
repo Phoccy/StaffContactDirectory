@@ -1,14 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:viewModels="clr-namespace:StaffContactDirectory.ViewModels"
-             x:DataType="viewModels:MainViewModel"
-             x:Class="StaffContactDirectory.Views.MainView">
+             xmlns:local="clr-namespace:StaffContactDirectory"
+             xmlns:view="clr-namespace:StaffContactDirectory.View"
+             xmlns:viewModel="clr-namespace:StaffContactDirectory.ViewModel"
+             x:DataType="viewModel:MainViewModel"
+             x:Class="StaffContactDirectory.View.MainPage">
 
     <ScrollView>
         <VerticalStackLayout
-            Spacing="5"
-            Padding="30,5"
+            Spacing="25"
+            Padding="30,0"
             VerticalOptions="Center">
 
             <Image

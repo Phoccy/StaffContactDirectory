@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:StaffContactDirectory"
+             xmlns:view="clr-namespace:StaffContactDirectory.View"
+             xmlns:viewModel="clr-namespace:StaffContactDirectory.ViewModel"
+             x:DataType="viewModel:AboutViewModel"
+             x:Class="StaffContactDirectory.View.AboutPage"
+             Title="About">
+    <VerticalStackLayout>
+        <Grid Padding="20" RowDefinitions="auto, auto, auto, auto" ColumnDefinitions="*" RowSpacing="5">
+            <Image Source="dotnet_bot.svg" HeightRequest="200" HorizontalOptions="Center" />
+            <Label Grid.Row="1" Text="{Binding AboutInfo}" FontSize="Body" VerticalOptions="Center" HorizontalOptions="Center" />
+            <Label Grid.Row="2" Text="{Binding Copyright}" FontSize="Body" VerticalOptions="Center" HorizontalOptions="Center" />
+            <Label Grid.Row="3" Text="{Binding Version, StringFormat='Version: {0} BETA'}" FontSize="Small" VerticalOptions="Center" HorizontalOptions="Center" />
+        </Grid>
+    </VerticalStackLayout>
+</ContentPage>

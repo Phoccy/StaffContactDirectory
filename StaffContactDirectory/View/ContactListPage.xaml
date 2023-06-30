@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:StaffContactDirectory"
+             xmlns:view="clr-namespace:StaffContactDirectory.View"
+             xmlns:viewModel="clr-namespace:StaffContactDirectory.ViewModel"
+             xmlns:model="clr-namespace:StaffContactDirectory.Model"
+             x:DataType="viewModel:ContactListViewModel"
+             x:Class="StaffContactDirectory.View.ContactListPage"
+             Title="Contact List">
+    <Grid BackgroundColor="{AppThemeBinding Light={StaticResource SecondaryBrush}, Dark={StaticResource Secondary}}"
+          ColumnSpacing="2"
+          RowSpacing="2">
+        <RefreshView
+            Grid.ColumnSpan="3"
+            Command="{Binding LoadPeopleCommand}"
+            IsRefreshing="{Binding IsRefreshing}">
+            <ContentView>
+                <CollectionView
+                    ItemsSource="{Binding People}"
+                    SelectionMode="None">
+                    <CollectionView.EmptyView>
+                        <StackLayout Padding="100">
+                            <Image
+                                HorizontalOptions="Center"
+                                HeightRequest="200"
+                                Source="dotnet_bot.svg"
+                                VerticalOptions="Center" />
+                            <Label Text="Nothing To See!" FontFamily="TrebuchetBold" FontSize="Large" HorizontalTextAlignment="Center"></Label>
+                        </StackLayout>
+                    </CollectionView.EmptyView>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="model:PeopleModel">
+                            <Grid Padding="10" HorizontalOptions="Fill">
+                                <Frame HeightRequest="125">
+                                    <Frame.GestureRecognizers>
+                                        <TapGestureRecognizer 
+                            Command="{Binding Source={RelativeSource AncestorType={x:Type viewModel:ContactListViewModel}}, Path=GoToContactDetailsCommand}"
+                            CommandParameter="{Binding .}"/>
+                                    </Frame.GestureRecognizers>
+                                    <Grid Padding="0" ColumnDefinitions="125,*">
+                                        <Image
+                            Aspect="AspectFill"
+                            HeightRequest="125"
+                            Source="{Binding ImageSrc}"
+                            WidthRequest="125" />
+                                        <VerticalStackLayout
+                            VerticalOptions="Center"
+                            Grid.Column="1"
+                            Padding="10">
+                                            <Label FontSize="Large" Text="{Binding Name}" />
+                                            <Label FontSize="Medium" Text="{Binding Phone}" />
+                                            <Label FontSize="Small" Text="{Binding Departments.Name}" />
+                                        </VerticalStackLayout>
+                                    </Grid>
+                                </Frame>
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </ContentView>
+        </RefreshView>
+    </Grid>
+
+</ContentPage>

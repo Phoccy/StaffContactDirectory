@@ -1,6 +1,4 @@
-﻿using StaffContactDirectory.Views;
-
-namespace StaffContactDirectory;
+﻿namespace StaffContactDirectory;
 
 public partial class AppShell : Shell
 {
@@ -8,9 +6,4 @@ public partial class AppShell : Shell
 	{
 		InitializeComponent();
 	}
-
-	public void OnSettingsClicked(object sender, EventArgs e)
-	{
-        Application.Current.MainPage.Navigation.PushAsync(new SettingsPage());
-    }
 }

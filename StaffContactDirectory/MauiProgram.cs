@@ -1,4 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
+using StaffContactDirectory.ViewModel;
+using StaffContactDirectory.View;
 
 namespace StaffContactDirectory;
 
@@ -11,8 +13,6 @@ public static class MauiProgram
 			.UseMauiApp<App>()
 			.ConfigureFonts(fonts =>
 			{
-				//fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
-				//fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 fonts.AddFont("Trebuchet-MS.ttf", "TrebuchetRegular");
                 fonts.AddFont("Trebuchet-MS-Bold.ttf", "TrebuchetBold");
                 fonts.AddFont("Trebuchet-MS-Italiac.ttf", "TrebuchetItaliac");
@@ -22,6 +22,18 @@ public static class MauiProgram
 		builder.Logging.AddDebug();
 #endif
 
-		return builder.Build();
+        builder.Services.AddSingleton<IConnectivity>(Connectivity.Current);
+
+        builder.Services.AddSingleton<MainViewModel>();
+        builder.Services.AddSingleton<MainPage>();
+
+        builder.Services.AddSingleton<AboutViewModel>();
+        builder.Services.AddSingleton<AboutPage>();
+
+        builder.Services.AddSingleton<PeopleService>(); 
+        builder.Services.AddSingleton<ContactListViewModel>();
+        builder.Services.AddSingleton<ContactListPage>();
+
+        return builder.Build();
 	}
 }
