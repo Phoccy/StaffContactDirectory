@@ -2,9 +2,13 @@
 {
     public partial class ContactListViewModel : BaseViewModel
     {
-        public ObservableCollection<PeopleModel> People { get; } = new();
+        public ObservableCollection<PeopleModel> People { get; } = new ObservableCollection<PeopleModel>();
+
         PeopleService peopleService;
         IConnectivity connectivity;
+
+        [ObservableProperty]
+        bool isRefreshing;
 
         public ContactListViewModel(PeopleService peopleService, IConnectivity connectivity)
         {
@@ -13,10 +17,17 @@
             this.connectivity = connectivity;
         }
 
-               [RelayCommand]
+        [RelayCommand]
+        async Task AddContact()
+        {
+            await Shell.Current.GoToAsync(nameof(AddContactPage), true);
+        }
+
+        [RelayCommand]
         async Task GoToContactDetails(PeopleModel person)
         {
-            if (person == null) return;
+            if (person == null)
+                return;
 
             await Shell.Current.GoToAsync(nameof(ContactDetailsPage), true, new Dictionary<string, object>
             {
@@ -24,13 +35,11 @@
             });
         }
 
-        [ObservableProperty]
-        bool isRefreshing;
-
         [RelayCommand]
-        async Task LoadPeople()
+        public async Task GetPeople()
         {
-            if (IsBusy) return;
+            if (IsBusy)
+                return;
 
             try
             {
@@ -42,13 +51,17 @@
 
                 IsBusy = true;
                 var people = await peopleService.GetPeopleAsync();
-                if (People.Count != 0) People.Clear();
+
+                if (People.Count != 0)
+                    People.Clear();
+
                 foreach (var person in people)
                     People.Add(person);
+
             }
             catch (Exception ex)
             {
-                Debug.WriteLine($"The people are out of reach: {ex.Message}");
+                Debug.WriteLine($"The peopleList are out of reach: {ex.Message}");
                 await Shell.Current.DisplayAlert("Whoops!", ex.Message, "OK");
             }
             finally
@@ -57,11 +70,18 @@
                 IsRefreshing = false;
             }
         }
+        // TODO: Add this somewhere
         [RelayCommand]
-        private async void Delete(PeopleModel person)
+        async Task DeletePerson(PeopleModel person)
         {
-            // Fix this up
-            await peopleService.DeletePersonAsync(person);
+            if (person == null) return;
+            bool result = await Shell.Current.DisplayAlert("Confirmation", $"Are you sure you want to delete {person.Name}?", "Yes", "No");
+            if (result)
+            {
+                await peopleService.DeletePersonAsync(person);
+                await GetPeople();
+            }
+
         }
     }
 }

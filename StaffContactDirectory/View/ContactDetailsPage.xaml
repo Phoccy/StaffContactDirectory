@@ -1,15 +1,99 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:local="clr-namespace:StaffContactDirectory"
-             xmlns:view="clr-namespace:StaffContactDirectory.View"
-             xmlns:viewModel="clr-namespace:StaffContactDirectory.ViewModel"
+             xmlns:model="clr-namespace:StaffContactDirectory.Model"
+             xmlns:viewModel="clr-namespace:StaffContactDirectory.ViewModel"             
+             x:DataType="viewModel:ContactDetailsViewModel"
              x:Class="StaffContactDirectory.View.ContactDetailsPage"
-             Title="Contact Details">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+             Routing.Route="ContactDetailsPage"
+             Title="{Binding Title}">
+    <ScrollView>
+        <VerticalStackLayout>
+            <Grid x:DataType="viewModel:ContactDetailsViewModel">
+                <Grid
+                    RowSpacing="10"
+                    RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto"
+                    ColumnSpacing="2"
+                    ColumnDefinitions="Auto, *, *, *"
+                    Padding="20">
+                    <Frame
+                        BackgroundColor="White"
+                        Grid.Row="0"
+                        Grid.ColumnSpan="4"
+                        HeightRequest="300"
+                        CornerRadius="5">
+                        <Image Source="{Binding Person.ImageSrc}" Aspect="AspectFill" />
+                    </Frame>
+                    <Label Grid.Row="2" Grid.Column="0" Text="Name:" HorizontalTextAlignment="End" VerticalTextAlignment="Center" FontAttributes="Bold" />
+                    <Label Grid.Row="3" Grid.Column="0" Text="Phone:" HorizontalTextAlignment="End" VerticalTextAlignment="Center" FontAttributes="Bold" />
+                    <Label Grid.Row="4" Grid.Column="0" Text="Department:" HorizontalTextAlignment="End" VerticalTextAlignment="Center" FontAttributes="Bold" />
+                    <Label Grid.Row="5" Grid.Column="0" Text="Street:" HorizontalTextAlignment="End" VerticalTextAlignment="Center" FontAttributes="Bold" />
+                    <Label Grid.Row="6" Grid.Column="0" Text="Suburb:" HorizontalTextAlignment="End" VerticalTextAlignment="Center" FontAttributes="Bold" />
+                    <Label Grid.Row="7" Grid.Column="0" Text="State:" HorizontalTextAlignment="End" VerticalTextAlignment="Center" FontAttributes="Bold" />
+                    <Label Grid.Row="8" Grid.Column="0" Text="Postcode:" HorizontalTextAlignment="End" VerticalTextAlignment="Center" FontAttributes="Bold" />
+                    <Label Grid.Row="9" Grid.Column="0" Text="Country" HorizontalTextAlignment="End" VerticalTextAlignment="Center" FontAttributes="Bold" />
+                    
+                    <Label Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Person.Name}" IsVisible="{Binding IsNotEditing}" />
+                    <Entry Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding UpdatedPerson.Name}" Placeholder="{Binding Person.Name}" MaxLength="50" IsVisible="{Binding IsEditing}" />
+                    <Label Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Person.Phone}" IsVisible="{Binding IsNotEditing}" />
+                    <Entry Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding UpdatedPerson.Phone}" Placeholder="{Binding Person.Phone}" MaxLength="50" Keyboard="Telephone" IsVisible="{Binding IsEditing}" />
+                    <Label Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Person.Departments.Name}" IsVisible="{Binding IsNotEditing}" />
+                    <!-- Department picker -->
+                    <Picker
+                        Title="Select A Department"
+                        Grid.Row="4"
+                        Grid.Column="1"
+                        Grid.ColumnSpan="3"                        
+                        ItemsSource="{Binding Departments}"
+                        ItemDisplayBinding="{Binding Name}"
+                        SelectedItem="{Binding SelectedItem}"
+                        SelectedIndex="{Binding Person.DepartmentId}"
+                        IsEnabled="{Binding IsEditing}" IsVisible="{Binding IsEditing}"
+                        SelectedIndexChanged="Picker_SelectedIndexChanged" />
+                    <Label Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Person.Street}" IsVisible="{Binding IsNotEditing}" />
+                    <Entry Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding UpdatedPerson.Street}" Placeholder="{Binding Person.Street}" IsVisible="{Binding IsEditing}" />
+                    <Label Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Person.Suburb}" IsVisible="{Binding IsNotEditing}" />
+                    <Entry Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding UpdatedPerson.Suburb}" Placeholder="{Binding Person.Suburb}" MaxLength="100" IsVisible="{Binding IsEditing}" />
+                    <Label Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Person.State}" IsVisible="{Binding IsNotEditing}" />
+                    <Entry Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding UpdatedPerson.State}" Placeholder="{Binding Person.State}" MaxLength="3" IsVisible="{Binding IsEditing}" />
+                    <Label Grid.Row="8" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Person.Postcode}" IsVisible="{Binding IsNotEditing}" />
+                    <Entry Grid.Row="8" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding UpdatedPerson.Postcode}" Placeholder="{Binding Person.Postcode}" MaxLength="4" Keyboard="Numeric" IsVisible="{Binding IsEditing}" />
+                    <Label Grid.Row="9" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Person.Country}" IsVisible="{Binding IsNotEditing}" />
+                    <Entry Grid.Row="9" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding UpdatedPerson.Country}" Placeholder="{Binding Person.Country}" MaxLength="100" IsVisible="{Binding IsEditing}" />
+                    <!-- Add edit button -->
+                    <Button
+                        Grid.Row="10"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="4"
+                        Text="Edit"
+                        IsVisible="{Binding IsNotEditing}"
+                        Command="{Binding Source={RelativeSource AncestorType={x:Type viewModel:ContactDetailsViewModel}}, Path=EnableUpdateCommand}" />
+                    <!-- Add update button -->
+                    <Button 
+                        Grid.Row="10"
+                        Grid.Column="0" 
+                        Grid.ColumnSpan="2"  
+                        Text="Cancel" 
+                        IsVisible="{Binding IsEditing}"
+                        Command="{Binding Source={RelativeSource AncestorType={x:Type viewModel:ContactDetailsViewModel}}, Path=CancelUpdateCommand}" />
+                    <Button
+                        Grid.Row="10"
+                        Grid.Column="2"
+                        Grid.ColumnSpan="2"
+                        Text="Update" 
+                        IsVisible="{Binding IsEditing}"
+                        Command="{Binding Source={RelativeSource AncestorType={x:Type viewModel:ContactDetailsViewModel}}, Path=UpdatePersonCommand}"
+                        CommandParameter="{Binding UpdatedPerson}" />
+                </Grid>
+            </Grid>
+            <ActivityIndicator
+                Grid.RowSpan="2"
+                Grid.ColumnSpan="2"
+                HorizontalOptions="Fill"
+                VerticalOptions="Center"
+                IsRunning="{Binding IsBusy}"
+                IsVisible="{Binding IsBusy}"
+                Color="{StaticResource Primary}" />
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>

@@ -1,19 +1,17 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.Collections.ObjectModel;
-
-namespace StaffContactDirectory.Service;
+﻿namespace StaffContactDirectory.Service;
 
 public class PeopleService
 {
     private readonly RemoteDatabase _remoteDatabase;
 
-    public PeopleService()
+    public PeopleService(RemoteDatabase remoteDatabase)
     {
-        _remoteDatabase = new RemoteDatabase();
+        _remoteDatabase = remoteDatabase;
     }
 
     public async Task<List<PeopleModel>> GetPeopleAsync()
     {
+
         return await _remoteDatabase.People.Include(p => p.Departments).ToListAsync();
     }
 
@@ -38,5 +36,10 @@ public class PeopleService
     {
         _remoteDatabase.People.Remove(person);
         await _remoteDatabase.SaveChangesAsync();
+    }
+
+    public void Dispose()
+    {
+        _remoteDatabase.Dispose();
     }
 }

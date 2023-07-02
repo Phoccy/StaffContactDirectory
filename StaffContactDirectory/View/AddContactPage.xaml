@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:StaffContactDirectory"
+             xmlns:view="clr-namespace:StaffContactDirectory.View"
+             xmlns:viewModel="clr-namespace:StaffContactDirectory.ViewModel"
+             x:DataType="viewModel:AddContactViewModel"
+             x:Class="StaffContactDirectory.View.AddContactPage"
+             Title="Add Contact">
+
+    <ScrollView>
+        <VerticalStackLayout>
+            <Grid x:DataType="viewModel:AddContactViewModel">
+                <Grid
+                    RowSpacing="10"
+                    RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto"
+                    ColumnSpacing="2"
+                    ColumnDefinitions="*, *, *, *"
+                    Padding="20">
+                    <Frame 
+                        BackgroundColor="White"
+                        Grid.Row="0"
+                        Grid.ColumnSpan="4"
+                        HeightRequest="300"
+                        CornerRadius="10">
+                        <Image Source="placeholder_male.png" Aspect="AspectFill" />
+                    </Frame>
+                    <Label Grid.Row="2" Grid.Column="0" Text="Name:" HorizontalTextAlignment="End" VerticalTextAlignment="Center" FontAttributes="Bold" />
+                    <Label Grid.Row="3" Grid.Column="0" Text="Phone:" HorizontalTextAlignment="End" VerticalTextAlignment="Center" FontAttributes="Bold" />
+                    <Label Grid.Row="4" Grid.Column="0" Text="Department:" HorizontalTextAlignment="End" VerticalTextAlignment="Center" FontAttributes="Bold" />
+                    <Label Grid.Row="5" Grid.Column="0" Text="Street:" HorizontalTextAlignment="End" VerticalTextAlignment="Center" FontAttributes="Bold" />
+                    <Label Grid.Row="6" Grid.Column="0" Text="Suburb:" HorizontalTextAlignment="End" VerticalTextAlignment="Center" FontAttributes="Bold" />
+                    <Label Grid.Row="7" Grid.Column="0" Text="State:" HorizontalTextAlignment="End" VerticalTextAlignment="Center" FontAttributes="Bold" />
+                    <Label Grid.Row="8" Grid.Column="0" Text="Postcode:" HorizontalTextAlignment="End" VerticalTextAlignment="Center" FontAttributes="Bold" />
+                    <Label Grid.Row="9" Grid.Column="0" Text="Country:" HorizontalTextAlignment="End" VerticalTextAlignment="Center" FontAttributes="Bold" />
+
+                    <Entry Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Person.Name}" MaxLength="50" TextTransform="Default" />
+                    <Entry Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Person.Phone}" MaxLength="12" Keyboard="Telephone" />
+                    <!-- Department picker -->
+                    <Picker
+                        Title="Select A Department"
+                        Grid.Row="4"
+                        Grid.Column="1"
+                        Grid.ColumnSpan="3"
+                        ItemsSource="{Binding Departments}"
+                        ItemDisplayBinding="{Binding Name}"
+                        SelectedItem="{Binding SelectedItem}"
+                        SelectedIndex="{Binding Person.DepartmentId}"
+                        SelectedIndexChanged="Picker_SelectedIndexChanged" />
+                    <Entry Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Person.Street}" />
+                    <Entry Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Person.Suburb}" MaxLength="100" />
+                    <Entry Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Person.State}" MaxLength="3" />
+                    <Entry Grid.Row="8" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Person.Postcode}" MaxLength="4" Keyboard="Numeric" />
+                    <Entry Grid.Row="9" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Person.Country}" MaxLength="100" TextTransform="Default" />
+                    <!-- Add add button -->
+                    <Button
+                        Grid.Row="10"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="2"
+                        Text="Cancel"
+                        Command="{Binding Source={RelativeSource AncestorType={x:Type viewModel:AddContactViewModel}}, Path=CancelAddCommand}" />
+                    <Button
+                        Grid.Row="10"
+                        Grid.Column="2"
+                        Grid.ColumnSpan="2"
+                        Text="Add"
+                        Command="{Binding Source={RelativeSource AncestorType={x:Type viewModel:AddContactViewModel}}, Path=AddPersonCommand}"
+                        CommandParameter="{Binding Person}" />
+                </Grid>
+            </Grid>
+            <ActivityIndicator
+                HorizontalOptions="Fill"
+                VerticalOptions="Center"
+                IsRunning="{Binding IsBusy}"
+                IsVisible="{Binding IsBusy}"
+                Color="{StaticResource Primary}" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

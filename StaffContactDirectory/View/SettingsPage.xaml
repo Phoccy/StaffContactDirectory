@@ -6,10 +6,16 @@
              xmlns:viewModel="clr-namespace:StaffContactDirectory.ViewModel"
              x:Class="StaffContactDirectory.View.SettingsPage"
              Title="Settings">
-    <VerticalStackLayout>
-        <Label 
-            Text="Just some sttings.."
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+    <StackLayout>
+        <Label Text="Text Size" />
+        <Slider Maximum="30" Value="{Binding TextSize}" />
+
+        <Label Text="Brightness" />
+        <Slider Maximum="1" Value="{Binding Brightness}" />
+
+        <Label Text="Enable Sound Effects" />
+        <Switch IsToggled="{Binding EnableSoundEffects}" />
+
+        <Button Text="Save Settings" Command="{Binding SaveSettingsCommand}" />
+    </StackLayout>
 </ContentPage>
