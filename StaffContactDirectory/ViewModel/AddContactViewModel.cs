@@ -29,8 +29,7 @@ namespace StaffContactDirectory.ViewModel
 
         [RelayCommand]
         async Task AddPerson(PeopleModel person)
-        {
-            await Shell.Current.DisplayAlert("Test", $"SelectedIndex: {SelectedIndex}\r\nSelctedItem: {SelectedItem}", "OKO");
+        {            
             if (person == null)
                 return;
 
@@ -44,7 +43,7 @@ namespace StaffContactDirectory.ViewModel
                 {
                     if (connectivity.NetworkAccess != NetworkAccess.Internet)
                     {
-                        await Shell.Current.DisplayAlert("No Connectivity", "I don't know what to do!", "OK");
+                        await Shell.Current.DisplayAlert("No Connectivity", "You cannot add any new contacts at the moment.", "OK");
                         return;
                     }
 
@@ -93,7 +92,7 @@ namespace StaffContactDirectory.ViewModel
 
                     if (string.IsNullOrEmpty(trimmedValue))
                     {
-                        await Shell.Current.DisplayAlert("Error", $"You must provide a value for {property.Name}", "OK");
+                        await Shell.Current.DisplayAlert("Whoops!", $"You must provide a value for {property.Name}", "OK");
                         result = false;
                     }
                 }
@@ -105,13 +104,9 @@ namespace StaffContactDirectory.ViewModel
 
                 if (!string.IsNullOrEmpty(phone) && phone.Length < 10)
                 {
-                    await Shell.Current.DisplayAlert("Error", "Phone must be 10 digits long", "OK");
+                    await Shell.Current.DisplayAlert("Whoops!", "Phone must be 10 digits long", "OK");
                     result = false;
                 }
-                //else
-                //{
-                //    person.GetType().GetProperty("Phone").SetValue(person, $"{long.Parse(phone):00 0000 0000}");
-                //}
             }
 
             if (person.GetType().GetProperty("DepartmentId") != null)
@@ -120,7 +115,7 @@ namespace StaffContactDirectory.ViewModel
 
                 if (departmentIdObj == null || !int.TryParse(departmentIdObj.ToString(), out int departmentId) || departmentId == 0)
                 {
-                    await Shell.Current.DisplayAlert("Error", "Please select a Department", "OK");
+                    await Shell.Current.DisplayAlert("Whoops!", "Please select a Department", "OK");
                     result = false;
                 }
             }
@@ -145,20 +140,32 @@ namespace StaffContactDirectory.ViewModel
 
             try
             {
-                if (connectivity.NetworkAccess != NetworkAccess.Internet)
+                IsBusy = true;
+
+                // Fetch data from local storage
+                List<DepartmentsModel> localDepartments = await FetchDepartmentsFromLocalStorage();
+
+                if (localDepartments != null)
                 {
-                    await Shell.Current.DisplayAlert("No Connectivity", "I don't know what to do!", "OK");
-                    return;
+                    // Data available in local storage, update the UI
+                    Departments.Clear();
+                    foreach (var department in localDepartments)
+                        Departments.Add(department);
                 }
 
-                IsBusy = true;
-                var departments = await departmentsService.GetDepartmentsAsync();
+                if (Connectivity.NetworkAccess == NetworkAccess.Internet)
+                {
+                    // Fetch data from the server
+                    var departments = await departmentsService.GetDepartmentsAsync();
 
-                if (Departments.Count != 0)
+                    // Update the UI
                     Departments.Clear();
+                    foreach (var department in departments)
+                        Departments.Add(department);
 
-                foreach (var department in departments)
-                    Departments.Add(department);
+                    // Update local storage with the latest data
+                    await _localDatabase.SaveDepartmentsAsync(departments);
+                }
 
             }
             catch (Exception ex)

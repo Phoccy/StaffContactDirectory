@@ -20,4 +20,12 @@ global using System.Threading.Tasks;
 global using AppInfo = Microsoft.Maui.ApplicationModel.AppInfo;
 global using CommunityToolkit.Mvvm.DependencyInjection;
 global using System.Windows.Input;
+//global using Android.Content.PM;
+//global using Android.Runtime;
+global using Microsoft.Maui.ApplicationModel;
+
+global using SQLite;
+global using PrimaryKeyAttribute = SQLite.PrimaryKeyAttribute;
+global using System.ComponentModel.DataAnnotations.Schema;
+global using TableAttribute = SQLite.TableAttribute;
 

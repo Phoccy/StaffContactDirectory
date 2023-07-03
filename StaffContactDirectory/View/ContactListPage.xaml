@@ -9,7 +9,7 @@
              x:Class="StaffContactDirectory.View.ContactListPage"
              Title="Contact List">
     <ContentPage.ToolbarItems>
-        <ToolbarItem IconImageSource="add_icon.svg" Command="{Binding Source={RelativeSource AncestorType={x:Type viewModel:ContactListViewModel}}, Path=AddContactCommand}" />
+        <ToolbarItem Text="Add Contact" IconImageSource="add_icon.svg" Command="{Binding Source={RelativeSource AncestorType={x:Type viewModel:ContactListViewModel}}, Path=AddContactCommand}" />
     </ContentPage.ToolbarItems>
     <RefreshView Command="{Binding Source={RelativeSource AncestorType={x:Type viewModel:ContactListViewModel}}, Path=GetPeopleCommand}" IsRefreshing="{Binding IsRefreshing}">
         <ScrollView>

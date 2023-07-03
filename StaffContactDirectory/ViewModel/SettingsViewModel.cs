@@ -16,6 +16,8 @@
 
                 // Apply the text size to the application or specific controls
                 // For example, you can use Xamarin.Forms Application.Current.MainPage or modify specific controls
+                
+                //Microsoft.Maui.FontSize = value;
             }
         }
 
@@ -28,7 +30,11 @@
                 OnPropertyChanged();
 
                 // Apply the brightness setting using Xamarin.Essentials or platform-specific APIs
-                //Xamarin.Essentials.Brightness.SetBrightness(value);
+                //var context = Microsoft.Maui.ApplicationModel.Services.GetRequiredService<IMauiContext>();
+                //context.SetBrightness(value);
+                //var display = DisplayInformation.GetForCurrentView();
+                // display.BrightnessOverride = value;
+                //Color color = Microsoft.Maui.Graphics.Color.;
             }
         }
 
@@ -47,9 +53,9 @@
         public SettingsViewModel()
         {
             // Initialize default values for the settings
-            TextSize = Preferences.Get(nameof(TextSize), 14);
-            Brightness = Preferences.Get(nameof(Brightness), 1.0);
-            EnableSoundEffects = Preferences.Get(nameof(EnableSoundEffects), true);
+            TextSize = Microsoft.Maui.Storage.Preferences.Get(nameof(TextSize), 14);
+            Brightness = Microsoft.Maui.Storage.Preferences.Get(nameof(Brightness), 1.0);
+            EnableSoundEffects = Microsoft.Maui.Storage.Preferences.Get(nameof(EnableSoundEffects), true);
             SaveSettingsCommand = new Command(SaveSettings);
         }
 
@@ -57,9 +63,9 @@
 
         private void SaveSettings()
         {
-            Preferences.Set(nameof(TextSize), TextSize);
-            Preferences.Set(nameof(Brightness), Brightness);
-            Preferences.Set(nameof(EnableSoundEffects), EnableSoundEffects);
+            Microsoft.Maui.Storage.Preferences.Set(nameof(TextSize), TextSize);
+            Microsoft.Maui.Storage.Preferences.Set(nameof(Brightness), Brightness);
+            Microsoft.Maui.Storage.Preferences.Set(nameof(EnableSoundEffects), EnableSoundEffects);
         }
     }
 }
