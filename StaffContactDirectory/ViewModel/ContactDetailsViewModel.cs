@@ -38,20 +38,32 @@
 
             try
             {
-                if (connectivity.NetworkAccess != NetworkAccess.Internet)
+                IsBusy = true;
+
+                // Fetch data from local storage
+                List<DepartmentsModel> localDepartments = await FetchDepartmentsFromLocalStorage();
+
+                if (localDepartments != null)
                 {
-                    await Shell.Current.DisplayAlert("No Connectivity", "I don't know what to do!", "OK");
-                    return;
+                    // Data available in local storage, update the UI
+                    Departments.Clear();
+                    foreach (var department in localDepartments)
+                        Departments.Add(department);
                 }
 
-                IsBusy = true;
-                var departments = await departmentsService.GetDepartmentsAsync();
+                if (Connectivity.NetworkAccess == NetworkAccess.Internet)
+                {
+                    // Fetch data from the server
+                    var departments = await departmentsService.GetDepartmentsAsync();
 
-                if (Departments.Count != 0)
+                    // Update the UI
                     Departments.Clear();
+                    foreach (var department in departments)
+                        Departments.Add(department);
 
-                foreach (var department in departments)
-                    Departments.Add(department);
+                    // Update local storage with the latest data
+                    await _localDatabase.SaveDepartmentsAsync(departments);
+                }
 
             }
             catch (Exception ex)
@@ -91,7 +103,7 @@
             {
                 if (connectivity.NetworkAccess != NetworkAccess.Internet)
                 {
-                    await Shell.Current.DisplayAlert("No Connectivity", "I don't know what to do!", "OK");
+                    await Shell.Current.DisplayAlert("No Connectivity", "You cannot update contacts at the moment.", "OK");
                     return;
                 }
 

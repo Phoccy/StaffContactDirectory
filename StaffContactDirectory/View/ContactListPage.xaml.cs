@@ -13,9 +13,7 @@ namespace StaffContactDirectory.View
         protected override async void OnAppearing()
         {
             base.OnAppearing();
-            await getPeople;
-            // REMOVE: This
-            await Shell.Current.DisplayAlert("Viewing", $"{this} Loaded..", "OK");
+            await getPeople;            
         }
     }
 }

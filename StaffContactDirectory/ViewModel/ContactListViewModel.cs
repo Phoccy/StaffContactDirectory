@@ -43,25 +43,37 @@
 
             try
             {
-                if (connectivity.NetworkAccess != NetworkAccess.Internet)
+                IsBusy = true;
+
+                // Fetch data from local storage
+                List<PeopleModel> localPeople = await FetchPeopleFromLocalStorage();
+
+                if (localPeople != null)
                 {
-                    await Shell.Current.DisplayAlert("No Connectivity", "I don't know what to do!", "OK");
-                    return;
+                    // Data available in local storage, update the UI
+                    People.Clear();
+                    foreach (var person in localPeople)
+                        People.Add(person);
                 }
 
-                IsBusy = true;
-                var people = await peopleService.GetPeopleAsync();
+                if (Connectivity.NetworkAccess == NetworkAccess.Internet)
+                {
+                    // Fetch data from the server
+                    var people = await peopleService.GetPeopleAsync();
 
-                if (People.Count != 0)
+                    // Update the UI
                     People.Clear();
+                    foreach (var person in people)
+                        People.Add(person);
 
-                foreach (var person in people)
-                    People.Add(person);
+                    // Update local storage with the latest data
+                    await _localDatabase.SavePeopleAsync(people);
+                }
 
             }
             catch (Exception ex)
             {
-                Debug.WriteLine($"The peopleList are out of reach: {ex.Message}");
+                Debug.WriteLine($"The people are out of reach: {ex.Message}");
                 await Shell.Current.DisplayAlert("Whoops!", ex.Message, "OK");
             }
             finally
@@ -74,12 +86,19 @@
         [RelayCommand]
         async Task DeletePerson(PeopleModel person)
         {
-            if (person == null) return;
-            bool result = await Shell.Current.DisplayAlert("Confirmation", $"Are you sure you want to delete {person.Name}?", "Yes", "No");
-            if (result)
+            if (Connectivity.NetworkAccess != NetworkAccess.Internet)
             {
-                await peopleService.DeletePersonAsync(person);
-                await GetPeople();
+                await Shell.Current.DisplayAlert("No Connectivity", "You cannot delete any contacts at the moment.", "OK");
+            }
+            else
+            {
+                if (person == null) return;
+                bool result = await Shell.Current.DisplayAlert("Confirmation", $"Are you sure you want to delete {person.Name}?", "Yes", "No");
+                if (result)
+                {
+                    await peopleService.DeletePersonAsync(person);
+                    await GetPeople();
+                }
             }
 
         }

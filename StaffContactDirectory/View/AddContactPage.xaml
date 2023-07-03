@@ -23,7 +23,7 @@
                         Grid.ColumnSpan="4"
                         HeightRequest="300"
                         CornerRadius="10">
-                        <Image Source="placeholder_male.png" Aspect="AspectFill" />
+                        <Image Source="placeholder_male.png" Aspect="AspectFit" />
                     </Frame>
                     <Label Grid.Row="2" Grid.Column="0" Text="Name:" HorizontalTextAlignment="End" VerticalTextAlignment="Center" FontAttributes="Bold" />
                     <Label Grid.Row="3" Grid.Column="0" Text="Phone:" HorizontalTextAlignment="End" VerticalTextAlignment="Center" FontAttributes="Bold" />

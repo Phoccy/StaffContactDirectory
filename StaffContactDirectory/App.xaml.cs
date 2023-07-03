@@ -15,9 +15,9 @@
 
         private void InitializeSettings()
         {
-            TextSize = Preferences.Get(nameof(TextSize), 14);
-            Brightness = Preferences.Get(nameof(Brightness), 1.0);
-            EnableSoundEffects = Preferences.Get(nameof(EnableSoundEffects), true);
+            TextSize = Microsoft.Maui.Storage.Preferences.Get(nameof(TextSize), 14);
+            Brightness = Microsoft.Maui.Storage.Preferences.Get(nameof(Brightness), 1.0);
+            EnableSoundEffects = Microsoft.Maui.Storage.Preferences.Get(nameof(EnableSoundEffects), true);
         }
 
         protected override void OnStart()
